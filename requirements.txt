@@ -4,6 +4,7 @@ python-dotenv
 langchain_groq
 langchain_core
 langchain_community
+langgraph
 arxiv
 wikipedia
 Ipython
