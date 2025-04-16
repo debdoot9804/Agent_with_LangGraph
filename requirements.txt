@@ -10,3 +10,4 @@ Ipython
 unicorn
 streamlit
 fastapi
+
