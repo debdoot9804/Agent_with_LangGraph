@@ -7,7 +7,7 @@ langchain_community
 arxiv
 wikipedia
 Ipython
-unicorn
+uvicorn
 streamlit
 fastapi
 
