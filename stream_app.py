@@ -13,9 +13,8 @@ with st.chat_message("user"):
     query = st.text_input("Ask something...", key="input", label_visibility="collapsed")
 
 if query:
-    # Show user message
-    st.chat_message("user").markdown(query)
-
+    
+    
     with st.spinner("Thinking..."):
         try:
             # 🔁 Send POST request to FastAPI
@@ -36,12 +35,9 @@ if query:
             response = f"❌ Request failed: {str(e)}"
         except ValueError:
             response = f"❌ Invalid JSON returned:\n\n{res.text}"
+        st.markdown(response)  
 
     # Add both user and assistant messages to history
     st.session_state.chat_history.append(("user", query))
     st.session_state.chat_history.append(("assistant", response))
 
-# Display full chat history
-for role, msg in st.session_state.chat_history:
-    with st.chat_message(role):
-        st.markdown(msg)
