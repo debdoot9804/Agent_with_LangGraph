@@ -7,3 +7,6 @@ langchain_community
 arxiv
 wikipedia
 Ipython
+unicorn
+streamlit
+fastapi
