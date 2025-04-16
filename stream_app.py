@@ -4,34 +4,44 @@ import requests
 st.set_page_config(page_title="LangGraph Agent", layout="centered")
 st.title("🧠 LangGraph Agent for Research, Wikipedia, Live Weather update & Web Search")
 
-# Initialize chat history in session state
+# Initialize chat history
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# Chat input at the bottom like ChatGPT
+# Input box (ChatGPT style)
 with st.chat_message("user"):
     query = st.text_input("Ask something...", key="input", label_visibility="collapsed")
 
 if query:
-    # Display user message
+    # Show user message
     st.chat_message("user").markdown(query)
 
     with st.spinner("Thinking..."):
         try:
-            res = requests.post("https://your-fastapi-app.onrender.com/query", json={"question": query})
+            # 🔁 Send POST request to FastAPI
+            res = requests.post(
+                "/https://agent-with-langgraph.onrender.com/query",
+                json={"question": query},
+                
+            )
 
-            response = res.json().get("response", "No response")
-        except Exception as e:
-            response = f" Error: {str(e)}"
+            # ✅ Handle JSON or error fallback
+            if res.headers.get("Content-Type", "").startswith("application/json"):
+                data = res.json()
+                response = data.get("response", "⚠️ No response found.")
+            else:
+                response = f"⚠️ Unexpected response:\n\n{res.text}"
 
-    # Save to chat history
+        except requests.exceptions.RequestException as e:
+            response = f"❌ Request failed: {str(e)}"
+        except ValueError:
+            response = f"❌ Invalid JSON returned:\n\n{res.text}"
+
+    # Add both user and assistant messages to history
     st.session_state.chat_history.append(("user", query))
     st.session_state.chat_history.append(("assistant", response))
 
-    # Display assistant response
-    st.chat_message("assistant").markdown(response)
-
-# Show previous chat history
+# Display full chat history
 for role, msg in st.session_state.chat_history:
     with st.chat_message(role):
         st.markdown(msg)
