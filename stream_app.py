@@ -2,42 +2,31 @@ import streamlit as st
 import requests
 
 st.set_page_config(page_title="LangGraph Agent", layout="centered")
-st.title("🧠 LangGraph Agent for Research, Wikipedia, Live Weather update & Web Search")
+st.title("🧠 LangGraph Agent for Arxiv-Wikipedia-Tavily-OpenWeather")
 
-# Initialize chat history
+# Initialize chat history if not present
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# Input box (ChatGPT style)
-with st.chat_message("user"):
-    query = st.text_input("Ask something...", key="input", label_visibility="collapsed")
+# Show last two messages
+for sender, message in st.session_state.chat_history[-2:]:
+    with st.chat_message(sender):
+        st.markdown(message)
+
+# Input box
+query = st.text_input("Ask something...", key="input")
 
 if query:
-    
-    
-    with st.spinner("Thinking..."):
-        try:
-            # 🔁 Send POST request to FastAPI
-            res = requests.post(
-                "https://agent-with-langgraph.onrender.com/query",
-                json={"question": query},
-                
-            )
+    # Get response from API
+    try:
+        res = requests.post("http://3.110.208.173:8000/query", json={"question": query})
+        response = res.json().get("response", "No response.")
+    except requests.exceptions.RequestException:
+        response = "❌ Request failed."
 
-            # ✅ Handle JSON or error fallback
-            if res.headers.get("Content-Type", "").startswith("application/json"):
-                data = res.json()
-                response = data.get("response", "⚠️ No response found.")
-            else:
-                response = f"⚠️ Unexpected response:\n\n{res.text}"
-
-        except requests.exceptions.RequestException as e:
-            response = f"❌ Request failed: {str(e)}"
-        except ValueError:
-            response = f"❌ Invalid JSON returned:\n\n{res.text}"
-        st.markdown(response)  
-
-    # Add both user and assistant messages to history
+    # Show response and update history
     st.session_state.chat_history.append(("user", query))
     st.session_state.chat_history.append(("assistant", response))
 
+    with st.chat_message("assistant"):
+        st.markdown(response)
