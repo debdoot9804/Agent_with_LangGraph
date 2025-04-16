@@ -20,7 +20,7 @@ if query:
         try:
             # 🔁 Send POST request to FastAPI
             res = requests.post(
-                "/https://agent-with-langgraph.onrender.com/query",
+                "https://agent-with-langgraph.onrender.com/query",
                 json={"question": query},
                 
             )
