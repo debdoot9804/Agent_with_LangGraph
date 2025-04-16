@@ -18,7 +18,8 @@ if query:
 
     with st.spinner("Thinking..."):
         try:
-            res = requests.post("http://localhost:8000/query", json={"question": query})
+            res = requests.post("https://your-fastapi-app.onrender.com/query", json={"question": query})
+
             response = res.json().get("response", "No response")
         except Exception as e:
             response = f" Error: {str(e)}"
