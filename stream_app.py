@@ -24,7 +24,7 @@ if query:
     with st.spinner("Thinking..."):
         try:
             res = requests.post(
-                "https://agent-with-langgraph.onrender.com/query",
+                "http://3.110.208.173:8000/query",
                 json={"question": query},
             )
             if res.headers.get("Content-Type", "").startswith("application/json"):
