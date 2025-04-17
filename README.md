@@ -36,3 +36,6 @@ Hosted via Streamlit Cloud
 
 Communicates with EC2 backend through requests.post()
 
+![image](https://github.com/user-attachments/assets/9ab62a2d-c7d3-48f8-8af7-8d7f0ebe0455)
+
+
