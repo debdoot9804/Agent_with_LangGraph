@@ -36,6 +36,7 @@ Hosted via Streamlit Cloud
 
 Communicates with EC2 backend through requests.post()
 
-![image](https://github.com/user-attachments/assets/9ab62a2d-c7d3-48f8-8af7-8d7f0ebe0455)
+![image](https://github.com/user-attachments/assets/9ab62a2d-c7d3-48f8-8af7-8d7f0ebe0455)                              ![Editor _ Mermaid Chart-2025-04-17-062220](https://github.com/user-attachments/assets/7b63ba7c-1849-4d42-9db7-222f6e296689)
+       
 
 
